@@ -56,4 +56,3 @@ public class VolumeCategory extends SettingsPreferenceFragment implements
         return false;
     }
 }
-

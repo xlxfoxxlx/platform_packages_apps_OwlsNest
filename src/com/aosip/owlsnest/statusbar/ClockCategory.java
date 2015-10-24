@@ -44,7 +44,6 @@ public class ClockCategory extends SettingsPreferenceFragment implements
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.aosip_clock);
-
     }
 
     @Override

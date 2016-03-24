@@ -31,8 +31,9 @@ import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 
-import com.android.internal.util.purenexus.PowerMenuConstants;
-import static com.android.internal.util.purenexus.PowerMenuConstants.*;
+import com.android.internal.util.aosip.aosipUtils;
+import com.android.internal.util.aosip.PowerMenuConstants;
+import static com.android.internal.util.aosip.PowerMenuConstants.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class PowermenuCategory extends SettingsPreferenceFragment implements
 
     private SwitchPreference mRebootPref;
     private SwitchPreference mScreenshotPref;
+    private SwitchPreference mTorchPref;
     private SwitchPreference mAirplanePref;
     private SwitchPreference mUsersPref;
     private SwitchPreference mSettingsPref;
@@ -85,6 +87,8 @@ public class PowermenuCategory extends SettingsPreferenceFragment implements
                 mRebootPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_REBOOT);
             } else if (action.equals(GLOBAL_ACTION_KEY_SCREENSHOT)) {
                 mScreenshotPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_SCREENSHOT);
+            } else if (action.equals(GLOBAL_ACTION_KEY_TORCH)) {
+                mTorchPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_TORCH);
             } else if (action.equals(GLOBAL_ACTION_KEY_AIRPLANE)) {
                 mAirplanePref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_AIRPLANE);
             } else if (action.equals(GLOBAL_ACTION_KEY_USERS)) {
@@ -121,6 +125,15 @@ public class PowermenuCategory extends SettingsPreferenceFragment implements
 
         if (mScreenshotPref != null) {
             mScreenshotPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_SCREENSHOT));
+        }
+
+        if (mTorchPref != null) {
+            if (!aosipUtils.deviceSupportsFlashLight(getActivity())) {
+                getPreferenceScreen().removePreference(findPreference(GLOBAL_ACTION_KEY_TORCH));
+                mTorchPref = null;
+            } else {
+                mTorchPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_TORCH));
+            }
         }
 
         if (mAirplanePref != null) {
@@ -184,6 +197,10 @@ public class PowermenuCategory extends SettingsPreferenceFragment implements
         } else if (preference == mScreenshotPref) {
             value = mScreenshotPref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_SCREENSHOT);
+
+        } else if (preference == mTorchPref) {
+            value = mTorchPref.isChecked();
+            updateUserConfig(value, GLOBAL_ACTION_KEY_TORCH);
 
         } else if (preference == mAirplanePref) {
             value = mAirplanePref.isChecked();

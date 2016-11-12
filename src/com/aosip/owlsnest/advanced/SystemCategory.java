@@ -59,6 +59,7 @@ public class SystemCategory extends SettingsPreferenceFragment implements
     private static final String SCROLLINGCACHE_DEFAULT = "2";
     private static final String SCREENSHOT_DELAY = "screenshot_delay";
     private static final String PREF_AOSIP_SETTINGS_SUMMARY = "aosip_settings_summary";
+    private static final String SCREENRECORD_CHORD_TYPE = "screenrecord_chord_type";
 
     private CustomSeekBarPreference mScreenshotDelay;
     private ListPreference mMsob;
@@ -66,6 +67,7 @@ public class SystemCategory extends SettingsPreferenceFragment implements
     private SwitchPreference mFlashlightNotification;
     private Preference mCustomSummary;
     private String mCustomSummaryText;
+    private ListPreference mScreenrecordChordType;
 
     @Override
     protected int getMetricsCategory() {
@@ -104,6 +106,10 @@ public class SystemCategory extends SettingsPreferenceFragment implements
         mScreenshotDelay.setValue(screenshotDelay / 1);
         mScreenshotDelay.setOnPreferenceChangeListener(this);
         }
+        int recordChordValue = Settings.System.getInt(resolver,
+                Settings.System.SCREENRECORD_CHORD_TYPE, 0);
+        mScreenrecordChordType = initActionList(SCREENRECORD_CHORD_TYPE,
+                recordChordValue);
 
         mCustomSummary = (Preference) prefScreen.findPreference(PREF_AOSIP_SETTINGS_SUMMARY);
         updateCustomSummaryTextString();
@@ -138,6 +144,10 @@ public class SystemCategory extends SettingsPreferenceFragment implements
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SCREENSHOT_DELAY, screenshotDelay * 1);
             return true;
+        } else if  (preference == mScreenrecordChordType) {
+            handleActionListChange(mScreenrecordChordType, newValue,
+                    Settings.System.SCREENRECORD_CHORD_TYPE);
+            return true;
         }
         return false;
     }
@@ -169,6 +179,21 @@ public class SystemCategory extends SettingsPreferenceFragment implements
             return super.onPreferenceTreeClick(preference);
         }
         return false;
+    }
+
+    private ListPreference initActionList(String key, int value) {
+        ListPreference list = (ListPreference) getPreferenceScreen().findPreference(key);
+        list.setValue(Integer.toString(value));
+        list.setSummary(list.getEntry());
+        list.setOnPreferenceChangeListener(this);
+        return list;
+    }
+
+    private void handleActionListChange(ListPreference pref, Object newValue, String setting) {
+        String value = (String) newValue;
+        int index = pref.findIndexOfValue(value);
+        pref.setSummary(pref.getEntries()[index]);
+        Settings.System.putInt(getActivity().getContentResolver(), setting, Integer.valueOf(value));
     }
 
     private void updateCustomSummaryTextString() {

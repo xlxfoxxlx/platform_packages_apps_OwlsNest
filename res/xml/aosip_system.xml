@@ -15,18 +15,18 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
-    android:title="@string/system_category" >
+        <PreferenceScreen
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
+            android:title="@string/system_category" >
 
-    <PreferenceScreen
+        <PreferenceScreen
             android:title="@string/display_color_title"
             android:summary="@string/display_color_summary">
-        <intent android:action="android.intent.action.MAIN"
+    <intent android:action="android.intent.action.MAIN"
             android:targetPackage="com.android.systemui"
             android:targetClass="com.android.systemui.tuner.ColorAndAppearanceActivity" />
-    </PreferenceScreen>
+        </PreferenceScreen>
 
         <ListPreference
              android:key="media_scanner_on_boot"
@@ -40,8 +40,8 @@
             android:entryValues="@array/screenshot_type_values"
             android:key="screenshot_type"
             android:title="@string/screenshot_type_title" />
-			 
-		<ListPreference
+ 
+        <ListPreference
              android:key="pref_scrollingcache"
              android:dialogTitle="@string/pref_scrollingcache_title"
              android:title="@string/pref_scrollingcache_title"
@@ -59,6 +59,10 @@
              android:key="wakelockblocker"
              android:fragment="com.aosip.owlsnest.advanced.WakelockBlocker"
              android:title="@string/wakelockblocker_category" />
+
+       <Preference
+            android:key="aosip_settings_summary"
+            android:title="@string/owlsnest_settings_summary_title" />
 
 </PreferenceScreen>
 

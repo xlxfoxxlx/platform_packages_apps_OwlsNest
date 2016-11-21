@@ -668,7 +668,7 @@
     <string name="weather_show_weather_title">Show weather</string>
     <string name="weather_show_weather_summary">Enable to show weather information</string>
     <string name="weather_show_location_title">Show location</string>
-    <string name="weather_show_location_summary">Enable to show the location</string>
+    <string name="weather_show_location_so ">Enable to show the location</string>
     <string name="weather_show_timestamp_title">Show timestamp</string>
     <string name="weather_show_timestamp_summary">Enable to show the timestamp</string>
     <string name="weather_condition_icon_title">Condition icon</string>
@@ -1058,5 +1058,11 @@
     <!-- Weather in status bar -->
     <string name="status_bar_show_weather_title">Show weather</string>
     <string name="status_bar_show_weather_summary">Show the weather in the status bar header</string>
+
+    <!-- AOSIP summary text -->
+    <string name="owlsnest_settings_summary_title">Custom AOSiP summary text in Settings application</string> 
+    <string name="custom_summary_title">Custom AOSiP summary</string>
+    <string name="custom_summary_explain">Please enter a new summary. Leave blank to revert to stock text.</string>
+ 
 
 </resources>

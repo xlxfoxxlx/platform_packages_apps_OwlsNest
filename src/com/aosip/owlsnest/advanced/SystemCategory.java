@@ -17,7 +17,9 @@
 package com.aosip.owlsnest.advanced;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -29,6 +31,9 @@ import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.Preference.OnPreferenceChangeListener;
 import android.support.v7.preference.ListPreference;
 import android.support.v14.preference.SwitchPreference;
+import android.text.Spannable;
+import android.text.TextUtils;
+import android.widget.EditText;
 
 import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.settings.R;
@@ -45,10 +50,13 @@ public class SystemCategory extends SettingsPreferenceFragment implements
     private static final String SCREENSHOT_TYPE = "screenshot_type";
     private static final String SCROLLINGCACHE_PERSIST_PROP = "persist.sys.scrollingcache";
     private static final String SCROLLINGCACHE_DEFAULT = "2";
+    private static final String PREF_AOSIP_SETTINGS_SUMMARY = "aosip_settings_summary";
 
     private ListPreference mScreenshotType;
     private ListPreference mMsob;
 	private ListPreference mScrollingCachePref;
+    private Preference mCustomSummary;
+    private String mCustomSummaryText;
 
     @Override
     protected int getMetricsCategory() {
@@ -60,6 +68,7 @@ public class SystemCategory extends SettingsPreferenceFragment implements
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.aosip_system);
         final ContentResolver resolver = getActivity().getContentResolver();
+        final PreferenceScreen prefScreen = getPreferenceScreen();
 
         mMsob = (ListPreference) findPreference(PREF_MEDIA_SCANNER_ON_BOOT);
         mMsob.setValue(String.valueOf(Settings.System.getInt(getActivity().getContentResolver(),
@@ -79,6 +88,8 @@ public class SystemCategory extends SettingsPreferenceFragment implements
         mScreenshotType.setSummary(mScreenshotType.getEntry());
         mScreenshotType.setOnPreferenceChangeListener(this);
 
+        mCustomSummary = (Preference) prefScreen.findPreference(PREF_AOSIP_SETTINGS_SUMMARY);
+        updateCustomSummaryTextString();
     }
 
     @Override
@@ -110,6 +121,46 @@ public class SystemCategory extends SettingsPreferenceFragment implements
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference) {
+        ContentResolver resolver = getActivity().getContentResolver();
+        if (preference == mCustomSummary) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+            alert.setTitle(R.string.custom_summary_title);
+            alert.setMessage(R.string.custom_summary_explain);
+
+            // Set an EditText view to get user input
+            final EditText input = new EditText(getActivity());
+            input.setText(TextUtils.isEmpty(mCustomSummaryText) ? "" : mCustomSummaryText);
+            input.setSelection(input.getText().length());
+            alert.setView(input);
+            alert.setPositiveButton(getString(android.R.string.ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String value = ((Spannable) input.getText()).toString().trim();
+                            Settings.System.putString(resolver, Settings.System.AOSIP_SETTINGS_SUMMARY, value);
+                            updateCustomSummaryTextString();
+                        }
+                    });
+            alert.setNegativeButton(getString(android.R.string.cancel), null);
+            alert.show();
+        } else {
+            return super.onPreferenceTreeClick(preference);
+        }
+        return false;
+    }
+
+    private void updateCustomSummaryTextString() {
+        mCustomSummaryText = Settings.System.getString(
+                getActivity().getContentResolver(), Settings.System.AOSIP_SETTINGS_SUMMARY);
+
+        if (TextUtils.isEmpty(mCustomSummaryText)) {
+            mCustomSummary.setSummary(R.string.owlsnest_summary_title);
+        } else {
+            mCustomSummary.setSummary(mCustomSummaryText);
+        } 
     }
 }
 

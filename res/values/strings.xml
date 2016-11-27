@@ -122,6 +122,7 @@
     <string name="ticker_font_style_title">Font Style</string>
     <string name="ticker_font_size_title">Font Size</string>
 
+<<<<<<< HEAD
     <!-- Battery customizations -->
     <string name="status_bar_battery_style_category">Battery</string>
     <string name="status_bar_battery_style_title">Battery status style</string>
@@ -150,6 +151,11 @@
     <string name="status_bar_clock_style_hidden">Hidden</string>
     <string name="status_bar_clock_seconds_title">Clock seconds</string>
     <string name="status_bar_clock_seconds_summary">Display seconds next to clock in status bar</string>
+=======
+    <!-- Flashlight notification -->
+    <string name="flashlight_notification_title">Flashlight notification</string>
+    <string name="flashlight_notification_summary">Enable notification for when the flashlight is on</string>
+>>>>>>> 9f7aebf... Option to disable music track title in QS tile [2/2]
 
     <string name="status_bar_am_pm_title">AM/PM style</string>
     <string name="status_bar_am_pm_info">24-hour clock is enabled</string>
@@ -315,6 +321,10 @@
     <string name="sysui_qqs_count_6">6</string>
     <string name="sysui_qqs_count_7">7</string>
     <string name="sysui_qqs_count_8">8</string>
+
+    <!-- Disable music track title -->
+    <string name="qs_music_tile_track_optional_title">Music tile track title</string>
+    <string name="qs_music_tile_track_optional_summary">Show the music track title as the QS tile title</string>
 
     <!-- Disable QS on secure Lockscreen -->
     <string name="lockscreen_qs_disabled_title">No QS when secured</string>

@@ -456,6 +456,10 @@
     <string name="sysui_qqs_count_7">7</string>
     <string name="sysui_qqs_count_8">8</string>
 
+    <string name="qs_tile_title_visibility_title">QS tile titles</string>
+    <string name="qs_tile_title_visibility_summary_on">QS tiles titles are now visible</string>
+    <string name="qs_tile_title_visibility_summary_off">QS tiles titles are now gone</string>
+
     <!-- Quick Settings brightness slider -->
     <string name="qs_brightness_slider_title">Brightness slider</string>
     <string name="qs_brightness_slider_summary">Show a brightness slider in the quick settings panel</string>

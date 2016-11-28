@@ -39,6 +39,8 @@ import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 
+import com.aosip.owlsnest.preference.CustomSeekBarPreference;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -121,7 +123,7 @@ public class SystemCategory extends SettingsPreferenceFragment implements
             mMsob.setSummary(mMsob.getEntry());
             return true;
         } else if (preference == mScreenshotDelay) {
-            int screenshotDelay = (Integer) objValue;
+            int screenshotDelay = (Integer) newValue;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SCREENSHOT_DELAY, screenshotDelay * 1);
             return true;

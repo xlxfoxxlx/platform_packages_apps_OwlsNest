@@ -196,7 +196,7 @@ public class BatteryCategory extends SettingsPreferenceFragment implements
                             new ArrayList<SearchIndexableResource>();
 
                     SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.statusbar_battery_style;
+                    sir.xmlResId = R.xml.aosip_battery;
                     result.add(sir);
 
                     return result;

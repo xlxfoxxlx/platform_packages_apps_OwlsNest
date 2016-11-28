@@ -80,6 +80,8 @@ public class TileCategory extends SettingsPreferenceFragment implements
 
         ContentResolver resolver = getActivity().getContentResolver();
 
+        int defaultValue;
+
         // Tile Animations
         mTileAnimationStyle = (ListPreference) findPreference(PREF_TILE_ANIM_STYLE);
         int tileAnimationStyle = Settings.System.getIntForUser(getContentResolver(),
@@ -189,12 +191,12 @@ public class TileCategory extends SettingsPreferenceFragment implements
             int SysuiQqsCountIndex = mSysuiQqsCount.findIndexOfValue(SysuiQqsCount);
             mSysuiQqsCount.setSummary(mSysuiQqsCount.getEntries()[SysuiQqsCountIndex]);
         } else if (preference == mRowsPortrait) {
-            int rowsPortrait = (Integer) objValue;
+            int rowsPortrait = (Integer) newValue;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.QS_ROWS_PORTRAIT, rowsPortrait * 1);
             return true;
         } else if (preference == mRowsLandscape) {
-            int rowsLandscape = (Integer) objValue;
+            int rowsLandscape = (Integer) newValue;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.QS_ROWS_LANDSCAPE, rowsLandscape * 1);
             return true;

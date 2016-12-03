@@ -71,8 +71,8 @@
 
 
     <!--Owlsnest statusbar-->
-    <string name="statusbar_bar_title">Statusbar</string>
-    <string name="statusbar_bar_summary">Adjust various statusbar elements</string>
+    <string name="statusbar_bar_title">Status bar</string>
+    <string name="statusbar_bar_summary">Adjust various status bar elements</string>
     <string name="clock_category">Clock</string>
     <string name="battery_category">Battery</string>
     <string name="icon_category">Icons</string>
@@ -166,7 +166,7 @@
     <string name="clock_date_string_edittext_summary">Enter string</string>
 
     <!-- Custom carrier label and position -->
-    <string name="carrier_label_settings_title">Carrier Label</string>
+    <string name="carrier_label_settings_title">Carrier label</string>
     <string name="carrier_label_settings_summary">Customize the carrier label</string>
     <string name="custom_carrier_label_title">Custom carrier label</string>
     <string name="custom_carrier_label_explain">Please enter a new label. Leave blank to revert to stock label.</string>
@@ -204,9 +204,9 @@
 
 
     <!--Owlsnest navigation-->
-    <string name="navigation_category">NavBar</string>
-    <string name="navigation_title">Navigation</string>
-    <string name="navigation_summary">Customize navigation style and behavior</string>
+    <string name="navigation_category">Navbar</string>
+    <string name="navigation_title">Navigation bar</string>
+    <string name="navigation_summary">Customize navigation bar style and behavior</string>
 
     <!-- Navigation Bar -->
     <string name="navbar_interface_title">Interface</string>
@@ -363,8 +363,8 @@
 
 
     <!--Owlsnest Notification-->
-    <string name="notification_title">Notification</string>
-    <string name="notification_summary">Adjust leds and other settings</string>
+    <string name="notification_title">Notifications</string>
+    <string name="notification_summary">Customize LED notifications and breathing settings</string>
     <string name="breathing_notifications_category">Breathing Notifications</string>
 
     <!-- Power notification controls -->
@@ -587,7 +587,7 @@
 
     <!--Owlsnest recentscreen-->
     <string name="recent_title">Recents</string>
-    <string name="recent_summary">Choose Stock or OmniSwitch and settings</string>
+    <string name="recent_summary">Choose between stock and OmniSwitch recents</string>
     <string name="stock_recents_category">Stock Recents</string>
     <string name="omniswitch_category">OmniSwitch</string>
 
@@ -756,7 +756,7 @@
 
 
     <!--Owlsnest Gestures-->
-    <string name="gesture_category">Gesture</string>
+    <string name="gesture_category">Gestures</string>
     <string name="gesture_summary">Gesture based options/actions</string>
 
     <!-- Status bar brightness control -->

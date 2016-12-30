@@ -36,4 +36,10 @@
         android:summary="@string/double_tap_sleep_anywhere_summary"
         android:defaultValue="false" />
 
+    <com.aosip.owlsnest.preference.SystemSettingSwitchPreference
+        android:key="double_tap_wake_doze"
+        android:title="@string/double_tap_wake_doze_title"
+        android:summary="@string/double_tap_wake_doze_summary"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

@@ -174,8 +174,7 @@ public class NavigationHolder extends SettingsPreferenceFragment implements
         mGestureSystemNavigation = (Preference) findPreference(KEY_GESTURE_SYSTEM);
 
         mLayoutSettings = (Preference) findPreference(KEY_LAYOUT_SETTINGS);
-        if (Utils.isThemeEnabled("com.android.internal.systemui.navbar.twobutton")
-                || Utils.isThemeEnabled("com.android.internal.systemui.navbar.gestural")
+        if (Utils.isThemeEnabled("com.android.internal.systemui.navbar.gestural")
                 || Utils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_nopill")
                 || Utils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_wide_back")
                 || Utils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_extra_wide_back")
@@ -570,7 +569,7 @@ public class NavigationHolder extends SettingsPreferenceFragment implements
         }
 
         if (Utils.isThemeEnabled("com.android.internal.systemui.navbar.twobutton") && navigationBar) {
-            homeCategory.setEnabled(false);
+            homeCategory.setEnabled(true);
             backCategory.setEnabled(true);
             menuCategory.setEnabled(false);
             assistCategory.setEnabled(false);

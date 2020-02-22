@@ -70,7 +70,7 @@
             android:entryValues="@array/ambient_notification_light_color_mode_values"
             android:defaultValue="2" />
 
-        <com.aosip.support.colorpicker.ColorSelectPreference
+        <com.aosip.support.preference.ColorSelectPreference
             android:key="ambient_notification_light_color"
             android:title="@string/ambient_notification_light_color_title"
             android:summary="@string/ambient_notification_light_color_summary"

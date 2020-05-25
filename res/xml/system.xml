@@ -18,27 +18,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
-    android:title="@string/system_category" >
-
-    <PreferenceCategory
-        android:key="incall_vibration_category"
-        android:title="@string/incall_vibration_category">
-
-        <com.aosip.support.preference.SystemSettingSwitchPreference
-            android:key="vibrate_on_connect"
-            android:title="@string/incall_vibrate_connect_title"
-            android:defaultValue="true" />
-
-        <com.aosip.support.preference.SystemSettingSwitchPreference
-            android:key="vibrate_on_callwaiting"
-            android:title="@string/incall_vibrate_call_wait_title"
-            android:defaultValue="true" />
-
-        <com.aosip.support.preference.SystemSettingSwitchPreference
-            android:key="vibrate_on_disconnect"
-            android:title="@string/incall_vibrate_disconnect_title"
-            android:defaultValue="true" />
-    </PreferenceCategory>
+    android:title="@string/system_category">
 
     <PreferenceCategory
         android:key="aspect_ratio_category"
@@ -67,6 +47,37 @@
             android:dependency="aspect_ratio_apps_enabled"
             android:persistent="false"
             android:summary="@string/aspect_ratio_apps_info" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="headset_connect"
+        android:title="@string/headset_connect_title">
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="headset_connect_player"
+            android:title="@string/headset_connect_player_title"
+            android:summary="@string/headset_connect_player_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="incall_vibration_category"
+        android:title="@string/incall_vibration_category">
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="vibrate_on_connect"
+            android:title="@string/incall_vibrate_connect_title"
+            android:defaultValue="true" />
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="vibrate_on_callwaiting"
+            android:title="@string/incall_vibrate_call_wait_title"
+            android:defaultValue="true" />
+
+        <com.aosip.support.preference.SystemSettingSwitchPreference
+            android:key="vibrate_on_disconnect"
+            android:title="@string/incall_vibrate_disconnect_title"
+            android:defaultValue="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

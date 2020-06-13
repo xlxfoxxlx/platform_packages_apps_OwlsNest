@@ -61,7 +61,7 @@
 
     <PreferenceCategory
         android:key="button_backlight_options_category"
-        android:title="@string/button_backlight_options_category" >
+        android:title="@string/button_backlight_title" >
 
         <com.aosip.support.preference.SystemSettingSwitchPreference
             android:key="button_backlight_enable"

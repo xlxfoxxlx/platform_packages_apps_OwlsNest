@@ -16,6 +16,7 @@
 
 package com.aosip.owlsnest.notification;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import android.provider.SearchIndexableResource;
 import android.provider.Settings;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,13 +57,16 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
     private static final String AMBIENT_NOTIFICATION_LIGHT_ACCENT_PREF = "ambient_notification_light_accent";
     private static final String PULSE_TIMEOUT_PREF = "ambient_notification_light_timeout";
     private static final String PULSE_COLOR_MODE_PREF = "ambient_notification_light_color_mode";
-    private static final String PREF_HEADS_UP = "heads_up_settings";
+    private static final String PREF_HEADS_UP = "heads_up";
+    private static final String STATUS_BAR_TICKER = "status_bar_show_ticker";
 
     private ColorSelectPreference mPulseLightColorPref;
     private GlobalSettingMasterSwitchPreference mHeadsUp;
     private ListPreference mColorMode;
     private ListPreference mPulseTimeout;
+    private Preference mBatteryLightPref;
     private SystemSettingSwitchPreference mPulseEdgeLights;
+    private SystemSettingSwitchPreference mTicker;
     private static final int MENU_RESET = Menu.FIRST;
     private int mDefaultColor;
     private int mColor;
@@ -71,32 +76,29 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
         return MetricsEvent.OWLSNEST;
     }
 
-    private Preference mBatteryLightPref;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.notification);
+        final ContentResolver resolver = getActivity().getContentResolver();
 
         mDefaultColor = getResources().getInteger(
                 com.android.internal.R.integer.config_ambientNotificationDefaultColor);
         mPulseEdgeLights = (SystemSettingSwitchPreference) findPreference(PULSE_AMBIANT_LIGHT_PREF);
-        boolean mPulseNotificationEnabled = Settings.Secure.getInt(getContentResolver(),
+        boolean mPulseNotificationEnabled = Settings.Secure.getInt(resolver,
                 Settings.Secure.DOZE_ENABLED, 0) != 0;
         mPulseEdgeLights.setEnabled(mPulseNotificationEnabled);
 
         setHasOptionsMenu(true);
 
         mPulseLightColorPref = (ColorSelectPreference) findPreference(PULSE_COLOR_PREF);
-        mColor = Settings.System.getInt(getContentResolver(),
+        mColor = Settings.System.getInt(resolver,
                 Settings.System.NOTIFICATION_PULSE_COLOR, mDefaultColor);
         mPulseLightColorPref.setColor(mColor);
         mPulseLightColorPref.setOnPreferenceChangeListener(this);
 
         mPulseTimeout = (ListPreference) findPreference(PULSE_TIMEOUT_PREF);
-        int value = Settings.System.getInt(getContentResolver(),
+        int value = Settings.System.getInt(resolver,
                 Settings.System.AOD_NOTIFICATION_PULSE_TIMEOUT, 0);
 
         mPulseTimeout.setValue(Integer.toString(value));
@@ -104,9 +106,9 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
         mPulseTimeout.setOnPreferenceChangeListener(this);
 
         mColorMode = (ListPreference) findPreference(PULSE_COLOR_MODE_PREF);
-        boolean colorModeAutomatic = Settings.System.getInt(getContentResolver(),
+        boolean colorModeAutomatic = Settings.System.getInt(resolver,
                 Settings.System.NOTIFICATION_PULSE_COLOR_AUTOMATIC, 0) != 0;
-        boolean colorModeAccent = Settings.System.getInt(getContentResolver(),
+        boolean colorModeAccent = Settings.System.getInt(resolver,
                 Settings.System.NOTIFICATION_PULSE_ACCENT, 0) != 0;
         if (colorModeAutomatic) {
             value = 0;
@@ -132,17 +134,28 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
         mHeadsUp.setChecked(Settings.Global.getInt(resolver,
                 Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED, 1) == 1);
         mHeadsUp.setOnPreferenceChangeListener(this);
+
+        mTicker = (SystemSettingSwitchPreference) findPreference(STATUS_BAR_TICKER);
+        isHeadsUpEnabledCheck();
       }
 
     @Override
     public void onResume() {
         super.onResume();
+        isHeadsUpEnabledCheck();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isHeadsUpEnabledCheck();
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        final ContentResolver resolver = getContentResolver();
         if (preference == mPulseLightColorPref) {
             ColorSelectPreference lightPref = (ColorSelectPreference) preference;
-            Settings.System.putInt(getContentResolver(),
+            Settings.System.putInt(resolver,
                      Settings.System.NOTIFICATION_PULSE_COLOR, lightPref.getColor());
             mColor = lightPref.getColor();
             mPulseLightColorPref.setColor(mColor);
@@ -151,7 +164,7 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
             int value = Integer.valueOf((String) newValue);
             int index = mPulseTimeout.findIndexOfValue((String) newValue);
             mPulseTimeout.setSummary(mPulseTimeout.getEntries()[index]);
-            Settings.System.putInt(getContentResolver(),
+            Settings.System.putInt(resolver,
                     Settings.System.AOD_NOTIFICATION_PULSE_TIMEOUT, value);
             return true;
         } else if (preference == mColorMode) {
@@ -159,19 +172,19 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
             int index = mColorMode.findIndexOfValue((String) newValue);
             mColorMode.setSummary(mColorMode.getEntries()[index]);
             if (value == 0) {
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_COLOR_AUTOMATIC, 1);
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_ACCENT, 0);
             } else if (value == 1) {
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_COLOR_AUTOMATIC, 0);
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_ACCENT, 1);
             } else {
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_COLOR_AUTOMATIC, 0);
-                Settings.System.putInt(getContentResolver(),
+                Settings.System.putInt(resolver,
                         Settings.System.NOTIFICATION_PULSE_ACCENT, 0);
             }
             return true;
@@ -179,6 +192,7 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
             Boolean value = (Boolean) newValue;
             Settings.Global.putInt(resolver,
                     Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED, value ? 1 : 0);
+            isHeadsUpEnabledCheck();
             return true;
         }
        return false;
@@ -210,6 +224,20 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
 
     private void refreshView() {
         getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+    }
+
+    private void isHeadsUpEnabledCheck() {
+
+        boolean headsupEnabled = Settings.Global.getInt(getContentResolver(),
+                Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED, 1) == 1;
+
+        if (headsupEnabled) {
+            mTicker.setEnabled(false);
+            mTicker.setChecked(false);
+        } else {
+            mTicker.setEnabled(true);
+            mTicker.setChecked(true);
+        }
     }
 
     /**

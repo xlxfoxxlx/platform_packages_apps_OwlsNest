@@ -177,7 +177,7 @@ public class NotificationHolder extends SettingsPreferenceFragment implements
             return true;
         } else if (preference == mHeadsUp) {
             Boolean value = (Boolean) newValue;
-            Settings.Global.putInt(resolver,
+            Settings.Global.putInt(getContentResolver(),
                     Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED, value ? 1 : 0);
             return true;
         }
